@@ -18,7 +18,7 @@ COLOR_APPLE = (255, 0, 0)           # Rojo
 COLOR_TEXT = (51, 51, 51)           # Gris oscuro (similar a #333)
 
 # Velocidad del juego (FPS o Ticks por segundo)
-GAME_SPEED = 40 # 10 actualizaciones por segundo (similar a 75ms/tick)
+GAME_SPEED = 10 # 10 actualizaciones por segundo (similar a 75ms/tick)
 
 # --- 2. CLASE COMIDA (FOOD) ---
 class Food:
@@ -104,11 +104,9 @@ class Snake:
         """Agrega un nuevo segmento al final del cuerpo."""
         # Simplemente insertamos una copia del último segmento. 
         # La próxima llamada a move() lo moverá al lugar correcto.
-        #tail = self.body[-1]
-        #self.body.append(tail) 
+        tail = self.body[-1]
+        self.body.append(tail) 
 
-    # Se ha eliminado el método check_self_collision() para permitir que la serpiente
-    # pase a través de sí misma sin terminar el juego.
     
     def draw(self):
         """Dibuja la serpiente, con un color diferente para la cabeza."""
