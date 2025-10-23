@@ -146,8 +146,8 @@ class MainWindow(QMainWindow):
             next_x += self.MOVEMENT_STEP
 
         # 2. Check limits and move
-        if self.limit_check(next_x, next_y):
-            self.receive_movement_coords(next_x, next_y)
+        #if self.limit_check(next_x, next_y):
+        self.receive_movement_coords(next_x%800, next_y%500)
         else:
             print("GAME OVER: ¡Límite alcanzado!")
             # If the game should end upon collision, uncomment:
