@@ -1,0 +1,113 @@
+
+🎮 Inicialización y Sistema
+'pygame.init()''
+
+Inicializa todos los módulos de Pygame.
+Debe ejecutarse antes de usar cualquier cosa del motor.
+
+🖼️ Ventana y Pantalla
+'pygame.display.set_mode((ancho, alto))'
+
+Crea la ventana del juego con las dimensiones indicadas.
+Devuelve un objeto “pantalla” donde se dibuja todo.
+
+'pygame.display.set_caption("Título")'
+
+Define el nombre de la ventana del juego.
+
+⏱️ Control del Tiempo
+'pygame.time.Clock()''
+
+Crea un reloj para limitar FPS.
+
+'reloj.tick(FPS)''
+
+Fuerza el juego a ejecutarse a la cantidad de frames por segundo indicada.
+
+🖱️🎹 Eventos de Entrada
+'pygame.event.get()''
+
+Devuelve una lista con todos los eventos recién ocurridos
+(teclado, cerrar ventana, mouse, etc).
+
+'pygame.QUIT'
+
+Evento disparado cuando el usuario cierra la ventana.
+
+'pygame.KEYDOWN'
+
+Evento que ocurre cuando se presiona una tecla.
+
+'evento.key'
+
+Tecla presionada (UP, DOWN, LEFT, RIGHT).
+
+🧱 Rectángulos
+'pygame.Rect(x, y, ancho, alto)'
+
+Crea un rectángulo.
+Se usa para:
+
+dibujar,
+
+detectar colisiones,
+
+manejar posiciones.
+
+Vos lo usás para la serpiente y la manzana.
+
+🎨 Dibujo en Pantalla
+'pygame.draw.rect(superficie, color, rect)'
+
+Dibuja un rectángulo sólido.
+Lo usás para dibujar:
+
+cuerpo de la serpiente,
+
+cabeza (cuando no hay imagen),
+
+fondo del marcador.
+
+'pygame.draw.circle(superficie, color, centro, radio)'
+
+Dibuja un círculo sólido.
+Lo usás para dibujar la manzana.
+
+🏞️ Imágenes
+"pygame.image.load(ruta)"
+
+Carga una imagen desde archivo.
+
+"convert_alpha()"
+
+Optimiza la imagen manteniendo transparencia.
+
+"pygame.transform.scale(imagen, (ancho, alto))"
+
+Escala (redimensiona) la imagen.
+
+🔤 Texto
+"pygame.font.Font(None, tamaño)"
+
+Crea una fuente para texto.
+
+"fuente.render(texto, antialias, color)"
+
+Convierte texto en una superficie dibujable.
+
+🖌️ Dibujar en la ventana
+"pantalla.blit(imagen_o_texto, posicion)"
+
+Dibuja una imagen o un texto en pantalla.
+
+🔄 Actualización de la Ventana
+"pygame.display.update()"
+
+Actualiza físicamente la pantalla mostrando los cambios.
+Debe llamarse en cada frame.
+
+🚪 Salir del juego
+"pygame.quit()"
+
+Cierra Pygame limpiamente.
+Se ejecuta al terminar el bucle principal.

@@ -1,0 +1,20 @@
+Explicacion fondo:
+def cargar_fondo_animado():
+    """Carga y escala la imagen de fondo para que ocupe la ventana y permita el desplazamiento."""
+    try:
+        imagen = pygame.image.load(FONDO_IMAGEN_RUTA).convert()
+        imagen_escalada = pygame.transform.scale(imagen, (ANCHO_VENTANA * 2, ALTURA_VENTANA))
+        return imagen_escalada
+    except pygame.error:
+        print(f"ERROR: No se pudo cargar la imagen de fondo '{FONDO_IMAGEN_RUTA}'. "
+              "Asegúrate de que el archivo exista en el mismo directorio que el script.")
+        return None
+-Desplaza la imagen del fondo hacia la izquierda continuamente.
+
+-Cuando ya se movió un ancho completo (−ANCHO_VENTANA), la resetea a 0 para repetir el ciclo.
+
+-Dibuja dos copias del fondo seguidas, una al lado de la otra.
+
+-Esto crea un efecto de scroll infinito sin cortes.
+
+-Si no existe la imagen , usa un color gris como fondo.

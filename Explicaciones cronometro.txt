@@ -1,0 +1,27 @@
+Explicacion de Cronometro:
+def dibujar_cronometro(self, superficie):
+    """Dibuja el tiempo restante (10s) en pantalla"""
+    tiempo_transcurrido = int(time.time() - self.tiempo_inicio)
+    tiempo_restante = max(TIEMPO_MAXIMO - tiempo_transcurrido, 0)
+    fuente = pygame.font.Font(None, 36)
+    texto = fuente.render(f"Tiempo: {tiempo_restante}s", True, BLANCO)
+    fondo_texto = pygame.Rect(ANCHO_VENTANA - texto.get_width() - 20, 10, texto.get_width() + 10, texto.get_height() + 10)
+    pygame.draw.rect(superficie, (51, 51, 51), fondo_texto, border_radius=5)
+    superficie.blit(texto, (ANCHO_VENTANA - texto.get_width() - 15, 15))
+    return tiempo_restante
+
+-Calcula cuánto tiempo pasó desde que comenzó el cronómetro usando self.tiempo_inicio.
+
+-Resta el tiempo pasado del tiempo máximo (10s) para obtener el tiempo restante.
+
+-Evita valores negativos usando max(..., 0).
+
+-Crea un texto que muestra ese tiempo.
+
+-Dibuja un rectángulo de fondo detrás del texto para que se vea más claro.
+
+-Coloca el texto en la esquina superior derecha de la pantalla.
+
+-Devuelve el tiempo restante para que el juego pueda saber si se acabó el tiempo.
+
+
