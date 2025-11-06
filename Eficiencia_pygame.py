@@ -68,15 +68,14 @@ class MecanicasManzana:
         elif dy < 0: # Arriba
             max_y = mitad_altura - TAMANO_ELEMENTO 
 
-        # Crear listas de pasos X e Y que cumplen con la cuadrícula (TAMANO_ELEMENTO) y el rango de la "mitad delantera"
+        # Crea listas de pasos X e Y que cumplen con la cuadrícula (TAMANO_ELEMENTO) y el rango de la "mitad delantera"
         x_pasos = list(range(min_x // TAMANO_ELEMENTO, (max_x + TAMANO_ELEMENTO) // TAMANO_ELEMENTO))
         y_pasos = list(range(min_y // TAMANO_ELEMENTO, (max_y + TAMANO_ELEMENTO) // TAMANO_ELEMENTO))
         
-        # MEJORA: Crear un CONJUNTO de coordenadas de cuadrícula ocupadas por la serpiente.
-        # La búsqueda en un set es O(1), más eficiente que en una lista O(n).
+        # Crea un CONJUNTO de coordenadas de cuadrícula ocupadas por la serpiente.
         coords_a_evitar = set((x // TAMANO_ELEMENTO, y // TAMANO_ELEMENTO) for x, y in segmentos_serpiente)
 
-        # MEJORA: Usar lista por comprensión para generar posiciones_validas de manera concisa.
+        #  Usa lista por comprensión para generar posiciones_validas 
         posiciones_validas = [
             (xs * TAMANO_ELEMENTO, ys * TAMANO_ELEMENTO) 
             for xs in x_pasos 
@@ -92,30 +91,30 @@ class MecanicasManzana:
 
     def colocar_manzana_segura(self, segmentos_serpiente):
         """
-        Método de respaldo (fallback) que busca en toda la ventana y evita el cuerpo.
+        Método de respaldo   busca en toda la ventana y evita el cuerpo.
         
-        MEJORA: Uso de set (conjunto) para coords_a_evitar y listas por comprensión para posiciones_validas.
+         Ademas usa  conjuntos para coords_a_evitar y listas por comprensión para posiciones_validas.
         """
         max_x_pasos = self.maximo_x // TAMANO_ELEMENTO
         max_y_pasos = self.maximo_y // TAMANO_ELEMENTO
         
-        # MEJORA: Crear un CONJUNTO de coordenadas de cuadrícula ocupadas por la serpiente.
+        #Crear un CONJUNTO de coordenadas de cuadrícula ocupadas por la serpiente.
         coords_a_evitar = set((x // TAMANO_ELEMENTO, y // TAMANO_ELEMENTO) for x, y in segmentos_serpiente)
 
-        # MEJORA: Usar lista por comprensión para generar posiciones_validas de manera concisa.
+        #  Usa lista por comprensión para generar posiciones_validas .
         # Itera sobre toda la cuadrícula de la ventana
         posiciones_validas = [
             (xs * TAMANO_ELEMENTO, ys * TAMANO_ELEMENTO) 
             for xs in range(max_x_pasos + 1)
             for ys in range(max_y_pasos + 1)
-            if (xs, ys) not in coords_a_evitar
+            if (xs, ys) not in coords_a_evitar#evita manzanas fuera de ventana o cuerpo de la serpiente
         ]
         
         if not posiciones_validas:
-            print("ERROR FATAL: ¡No hay espacio para generar la manzana!")
+            print("ERROR : ¡No hay espacio para generar la manzana!")
             return
 
-        self.manzana_x, self.manzana_y = random.choice(posiciones_validas)
+        self.manzana_x, self.manzana_y = random.choice(posiciones_validas)#una vez hecho el calculo elije una posicion random de las validas
         print(f"🍏 Nueva Manzana (Respaldo) en: ({self.manzana_x}, {self.manzana_y})")
 
     def obtener_coordenadas(self):
@@ -140,7 +139,7 @@ class JuegoSerpiente:
         inicio_x = (centro_x // TAMANO_ELEMENTO) * TAMANO_ELEMENTO
         inicio_y = (centro_y // TAMANO_ELEMENTO) * TAMANO_ELEMENTO
         
-        self.segmentos = [(inicio_x, inicio_y)] # Lista que almacena las coordenadas de cada segmento
+        self.segmentos = [(inicio_x, inicio_y)] # Lista que almacena las coordenadas de cada segmento de la serpiente
         self.puntuacion = 0
         self.mecanicas_manzana = MecanicasManzana() # Crea el objeto manzana
         self.mecanicas_manzana.colocar_manzana_random(inicio_x, inicio_y, DIRECCION_INICIAL, self.segmentos)
@@ -149,27 +148,27 @@ class JuegoSerpiente:
         self.direccion_actual = DIRECCION_INICIAL # Establece la dirección inicial
 
     def cargar_imagen_serpiente(self):
-        """Carga la imagen de la cabeza desde el disco y la escala."""
+        """Carga la imagen de la cabeza  y la coloca a escala adecuada para la ventana."""
         ruta_imagen = "cabeza_serpiente.png" 
         try:
-            imagen = pygame.image.load(ruta_imagen).convert_alpha()
-            imagen_escalada = pygame.transform.scale(imagen, (TAMANO_ELEMENTO, TAMANO_ELEMENTO))
+            imagen = pygame.image.load(ruta_imagen).convert_alpha()#Si la imagen tiene fondo transparente, usa siempre convert_alpha().
+            imagen_escalada = pygame.transform.scale(imagen, (TAMANO_ELEMENTO, TAMANO_ELEMENTO))#ajusta el tamaño
             return imagen_escalada
         except pygame.error:
             return None # Retorna None si el archivo no se encuentra
 
     def dibujar_puntuacion(self, superficie):
-        """Dibuja la puntuación actual en la superficie del juego."""
+        """Dibuja la puntuación actual en la superficie del juego. 
+        Y personaliza algunos aspectos de esta"""
         fuente = pygame.font.Font(None, 36)
-        # Nota: Cambiar a BLANCO para mayor contraste con el fondo gris oscuro del texto.
         texto = fuente.render(f"Puntuación: {self.puntuacion}", True, BLANCO) 
         fondo_texto = pygame.Rect(10, 10, texto.get_width() + 10, texto.get_height() + 10)
         pygame.draw.rect(superficie, (51, 51, 51), fondo_texto, border_radius=5) 
-        superficie.blit(texto, (15, 15))
+        superficie.blit(texto, (15, 15))#blit = copiar un Surface(superficie) dentro de otro Surface
 
     def dibujar_serpiente(self, superficie):
         """Dibuja cada segmento de la serpiente (cabeza y cuerpo)."""
-        for i, (x, y) in enumerate(self.segmentos):
+        for i, (x, y) in enumerate(self.segmentos):#recorre los segmentos de la serpiente
             segmento_rect = pygame.Rect(x, y, TAMANO_ELEMENTO, TAMANO_ELEMENTO)
             if i == 0:
                 # Dibuja la cabeza (usa imagen si está disponible, sino color VERDE_CABEZA)
@@ -183,17 +182,17 @@ class JuegoSerpiente:
 
     def mover_serpiente(self):
         """
-        Calcula el nuevo movimiento, aplica el teletransporte y chequea colisiones.
-        MEJORA: Consolidación de la lógica de teletransporte negativo.
+        Calcula el nuevo movimiento.
+        
         """
         dx, dy = self.direccion_actual
-        cabeza_x, cabeza_y = self.segmentos[0]
+        cabeza_x, cabeza_y = self.segmentos[0]#posicion cabeza
         
         # Calcular la siguiente posición sin aplicar límites aún
         siguiente_x = cabeza_x + dx
         siguiente_y = cabeza_y + dy
 
-        # 1. Aplicar el efecto de teletransporte (wrapping)
+        # 1. Aplica el efecto de teletransporte  si se topa con el limite de ventana
         siguiente_x = siguiente_x % ANCHO_VENTANA
         siguiente_y = siguiente_y % ALTURA_VENTANA
 
@@ -204,12 +203,11 @@ class JuegoSerpiente:
         if siguiente_y < 0:
             siguiente_y += ALTURA_VENTANA
 
-        # 2. Mueve el cuerpo: Inserta la nueva cabeza
+        # 2. Mueve el cuerpo: Inserta la nueva cabeza(al cuerpo)
         nueva_cabeza = (siguiente_x, siguiente_y)
         self.segmentos.insert(0, nueva_cabeza)
         
-        # NOTA: La lógica de colisión contra el cuerpo (if nueva_cabeza in self.segmentos[1:])
-        # fue omitida a propósito, como solicitaste, para mantener la funcionalidad original.
+        
 
         # 3. Colisión con manzana
         esta_comiendo = self.chequeo_colision_manzana()
@@ -220,7 +218,7 @@ class JuegoSerpiente:
         return True # El movimiento fue exitoso
 
     def chequeo_colision_manzana(self):
-        """Verifica si la cabeza choca con la manzana."""
+        """Verifica si la cabeza choca con la manzana, viendo si ambas coords son iguales"""
         cabeza_x, cabeza_y = self.segmentos[0]
         manzana_x, manzana_y = self.mecanicas_manzana.obtener_coordenadas()
         
@@ -236,7 +234,7 @@ class JuegoSerpiente:
         return False
 
     def manejar_entrada(self, tecla):
-        """Maneja la entrada del teclado y actualiza la dirección de forma segura."""
+        """Maneja la entrada del teclado y actualiza la dirección dependiendo el evento de presion de tecla."""
         dx, dy = self.direccion_actual
         
         nueva_direccion = None
@@ -271,8 +269,8 @@ def principal():
                 juego.manejar_entrada(evento.key) # Procesa la tecla presionada
 
         # 2. Lógica del Juego (Actualización)
-        if not juego.mover_serpiente():
-            ejecutando = False # Si mover_serpiente retorna False (por chocar el cuerpo), el juego termina
+        if not juego.mover_serpiente():#Mantiene el movimiento de la serpiente constante
+            ejecutando = False
 
         # 3. Dibujo (Renderizado)
         pantalla.fill(GRIS) # Pinta el fondo
