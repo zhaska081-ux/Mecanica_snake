@@ -49,7 +49,7 @@ class MecanicasManzana:
         Coloca la manzana en un punto aleatorio, priorizando la mitad de la ventana
         hacia donde se dirige la serpiente, y asegurando que no aparezca en el cuerpo.
         
-        MEJORA: Uso de set (conjunto) para coords_a_evitar y listas por comprensión para posiciones_validas.
+       Uso de set (conjunto) para coords_a_evitar y listas por comprensión para posiciones_validas.
         """
         dx, dy = direccion_actual
         
